@@ -14,7 +14,7 @@ private:
     {
         std::string Name;
         std::string Version;
-        uint32_t SupportedDays;
+        int SupportedDays;
     };
 
     nlohmann::json m_Data;
@@ -22,7 +22,7 @@ private:
 private:
     nlohmann::json ParseFile(const std::string& filePath);
 
-    uint32_t CalculateDaysBetweenDates(const std::string& date1, const std::string& date2);
+    int CalculateDaysBetweenDates(const std::string& date1, const std::string& date2);
 
     void PushIfBetterFound(std::vector<OutputFormat>& vector, OutputFormat&& value);
 

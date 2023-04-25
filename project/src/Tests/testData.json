@@ -1,0 +1,86 @@
+[
+{
+    "name": "almalinux",
+    "os": true,
+    "versions": [
+    {
+        "cycle": "9",
+        "releaseDate": "2022-05-26",
+        "support": "2027-05-31",
+        "eol": "2022-05-27",
+        "latest": "9.1",
+        "link": "https://almalinux.org/blog/almalinux-91-now-available/",
+        "lts": false
+    }
+    ]
+},
+{
+    "name": "alpine",
+    "os": true,
+    "versions": [
+    {
+        "cycle": "3.17",
+        "releaseDate": "2022-11-22",
+        "eol": "2022-11-24",
+        "latest": "3.17.3",
+        "lts": false
+    }
+    ]
+},
+{
+    "name": "amazon-corretto",
+    "os": true,
+    "versions": [
+    {
+        "cycle": "20",
+        "releaseDate": "2023-02-10",
+        "eol": "2023-02-13",
+        "latest": "20.0.0.36.1",
+        "lts": false
+    }
+    ]
+},
+{
+    "name": "amazon-eks",
+    "os": true,
+    "versions": [
+    {
+        "cycle": "1.25",
+        "releaseDate": "2023-02-21",
+        "eol": "2023-02-25",
+        "latest": "1.25-eks-1",
+        "lts": false
+    }
+    ]
+},
+{
+    "name": "amazon-linux",
+    "os": true,
+    "versions": [
+    {
+        "cycle": "2023",
+        "eol": "2023-03-06",
+        "support": "2025-03-15",
+        "latest": "2023.0.20230322.0",
+        "releaseDate": "2023-03-01",
+        "link": "https://aws.amazon.com/about-aws/whats-new/2023/03/amazon-linux-2023/",
+        "lts": false
+    }
+    ]
+},
+{
+    "name": "amazon-linux",
+    "os": false,
+    "versions": [
+    {
+        "cycle": "2023",
+        "eol": "2026-03-06",
+        "support": "2025-03-15",
+        "latest": "2023.0.20230322.0",
+        "releaseDate": "2023-03-01",
+        "link": "https://aws.amazon.com/about-aws/whats-new/2023/03/amazon-linux-2023/",
+        "lts": false
+    }
+    ]
+}
+]

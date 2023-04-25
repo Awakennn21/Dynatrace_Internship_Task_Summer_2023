@@ -16,30 +16,27 @@ nlohmann::json Task::ParseFile(const std::string& filePath)
     return JsonData;
 }
 
-uint32_t Task::CalculateDaysBetweenDates(const std::string& date1, const std::string& date2)
-{
+int Task::CalculateDaysBetweenDates(const std::string& date1, const std::string& date2)
+{ 
     auto Date1 = boost::gregorian::from_string(date1);
     auto Date2 = boost::gregorian::from_string(date2);
     return (Date2 - Date1).days();
 }
 
-void Task::PushIfBetterFound( std::vector<Task::OutputFormat>& vector, Task::OutputFormat&& value)
+void Task::PushIfBetterFound(std::vector<Task::OutputFormat>& vector, Task::OutputFormat&& value)
 {
-    if(vector.size() < m_OutputVectorSize)
+    auto Position = std::find_if(vector.begin(), vector.end(), [&value](const OutputFormat& other) { return other.SupportedDays < value.SupportedDays; });
+    if (Position != vector.end()) 
+    {
+        vector.insert(Position, value);
+        if (vector.size() > m_OutputVectorSize) 
+        {
+            vector.pop_back();
+        }
+    }
+    else if (vector.size() < m_OutputVectorSize) 
     {
         vector.push_back(value);
-        return;
-    }
-
-    for(int i = 0; i < vector.size(); i++)
-    {
-        if(vector[i].SupportedDays < value.SupportedDays)
-        {
-            //Insert value before the first os found with shorter period od support 
-            vector.insert(vector.begin() + i, value);
-            vector.pop_back();
-            return;
-        }
     }
 }
 
@@ -48,12 +45,19 @@ std::vector<Task::OutputFormat> Task::GetEachOsSuportedDays()
     std::vector<OutputFormat> Result;
     for(const auto& obj : m_Data) 
     {        
-        for(const nlohmann::json& version : obj["versions"])
+        for(const auto& version : obj["versions"])
         {
             //Check whether fileds, required as an output, exist in a json object
             if (version.contains("releaseDate") && version.contains("eol") && version.contains("cycle") && obj.contains("name")) 
             {
-                PushIfBetterFound(Result, {obj["name"], version["cycle"], CalculateDaysBetweenDates(version["releaseDate"], version["eol"]) });
+                try
+                {
+                    PushIfBetterFound(Result, {obj["name"], version["cycle"], CalculateDaysBetweenDates(version["releaseDate"], version["eol"]) });
+                }
+                catch (const std::exception& e)//if json data is invalid in any whay then ignore that object
+                {
+                    continue;
+                }
             }
         }
     }
@@ -63,8 +67,8 @@ std::vector<Task::OutputFormat> Task::GetEachOsSuportedDays()
 void Task::PrintData(int count)
 {
     std::vector<OutputFormat> OsData = GetEachOsSuportedDays();
-    for(int i = 0; i < count; i++) 
+    for(const auto& o : OsData) 
     {
-        std::cout<<OsData[i].Name<<" "<<OsData[i].Version<<" "<<OsData[i].SupportedDays<<std::endl;
+        std::cout<<o.Name<<" "<<o.Version<<" "<<o.SupportedDays<<std::endl;
     }
 }
